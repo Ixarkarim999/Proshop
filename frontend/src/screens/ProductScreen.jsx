@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Card,
+  Button,
+  Form,
+} from "react-bootstrap";
 import Rating from "../components/Rating";
 import { listProductDetails } from "../actions/productActions.js";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
-const ProductScreen = () => {
-  // const [qty, setQty] = useState(0);
+const ProductScreen = ({ history, match }) => {
+  const navigate = useNavigate();
+  const [qty, setQty] = useState(0);
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
@@ -18,7 +27,10 @@ const ProductScreen = () => {
   useEffect(() => {
     dispatch(listProductDetails(id));
   }, [dispatch, id]);
-
+  const addToCartHandler = () => {
+    console.log("function called");
+    navigate(`/cart/${id}?qty=${qty}`);
+  };
   return (
     <div>
       <Link className="btn btn-light my-3" to="/">
@@ -71,9 +83,34 @@ const ProductScreen = () => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+                {product.countInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Qty</Col>
+                      <Col>
+                        <Form.Select
+                          aria-label="Default select"
+                          as="select"
+                          value={qty}
+                          onChange={(e) => setQty(e.target.value)}
+                        >
+                          {[...Array(product.countInStock).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Form.Select>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
 
                 <ListGroup.Item className="d-grid">
-                  <Button className="btn-block" type="button">
+                  <Button
+                    className="btn-block"
+                    type="button"
+                    onClick={addToCartHandler}
+                  >
                     ADD TO CART
                   </Button>
                 </ListGroup.Item>
