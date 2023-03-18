@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,11 +8,12 @@ import { listProductDetails } from "../actions/productActions.js";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = () => {
+  // const [qty, setQty] = useState(0);
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
-  const { loading, error, products } = productDetails;
-  console.log("productDetails", productDetails);
+  const { loading, error, product } = productDetails;
+  console.log(productDetails);
   const { id } = useParams();
   useEffect(() => {
     dispatch(listProductDetails(id));
@@ -30,22 +31,22 @@ const ProductScreen = ({ match }) => {
       ) : (
         <Row>
           <Col md={6}>
-            <Image src={products.image} alt={products.name} fluid />
+            {product ? <Image src={product.image} fluid /> : null}
           </Col>
           <Col md={3}>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <h3>{products.name}</h3>
+                <h3>{product.name}</h3>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Rating
-                  value={products.rating}
-                  text={`${products.numReviews} reviews`}
+                  value={product.rating}
+                  text={`${product.numReviews} reviews`}
                 />
               </ListGroup.Item>
-              <ListGroup.Item>Price : ${products.price}</ListGroup.Item>
+              <ListGroup.Item>Price : ${product.price}</ListGroup.Item>
               <ListGroup.Item>
-                Description : {products.description}
+                Description : {product.description}
               </ListGroup.Item>
             </ListGroup>
           </Col>
@@ -56,7 +57,7 @@ const ProductScreen = ({ match }) => {
                   <Row>
                     <Col>Price:</Col>
                     <Col>
-                      <strong>{products.price}</strong>
+                      <strong>{product.price}</strong>
                     </Col>
                   </Row>
                 </ListGroup.Item>
@@ -65,13 +66,12 @@ const ProductScreen = ({ match }) => {
                     <Col>Status:</Col>
                     <Col>
                       <strong>
-                        {products.countInStock > 0
-                          ? "In Stock"
-                          : "Out Of Stock"}
+                        {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
                       </strong>
                     </Col>
                   </Row>
                 </ListGroup.Item>
+
                 <ListGroup.Item className="d-grid">
                   <Button className="btn-block" type="button">
                     ADD TO CART
