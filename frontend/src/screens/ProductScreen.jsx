@@ -16,9 +16,9 @@ import { listProductDetails } from "../actions/productActions.js";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
-const ProductScreen = ({ history, match }) => {
+const ProductScreen = () => {
   const navigate = useNavigate();
-  const [qty, setQty] = useState(0);
+  const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
@@ -28,7 +28,6 @@ const ProductScreen = ({ history, match }) => {
     dispatch(listProductDetails(id));
   }, [dispatch, id]);
   const addToCartHandler = () => {
-    console.log("function called");
     navigate(`/cart/${id}?qty=${qty}`);
   };
   return (
