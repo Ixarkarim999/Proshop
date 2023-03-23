@@ -12,7 +12,7 @@ import {
   ListGroupItem,
 } from "react-bootstrap";
 import Message from "../components/Message";
-import { addToCart } from "../actions/cartActions";
+import { addToCart, removeItems } from "../actions/cartActions";
 
 const CartScreen = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const CartScreen = () => {
   }, [dispatch, productId, qty]);
 
   const removeFromCartHandler = (id) => {
-    console.log(id);
+    dispatch(removeItems(id));
   };
   const checkOutHandler = () => {
     navigate("/login?redirect=shipping");
