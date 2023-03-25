@@ -19,7 +19,7 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
     console.log("asdda");
   } catch (error) {
     dispatch({
-      type: "ERRFSDFSDFDSF",
+      type: "Error",
       payload: error,
     });
   }
