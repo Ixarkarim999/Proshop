@@ -118,7 +118,9 @@ const LoginScreen = () => {
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="email">
-          <Form.Label>Email Address</Form.Label>
+          <Form.Label>
+            <strong>Email Address</strong>
+          </Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter email"
@@ -127,8 +129,10 @@ const LoginScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
+        <Form.Group controlId="password" className="mt-4">
+          <Form.Label>
+            <strong>Password</strong>
+          </Form.Label>
           <Form.Control
             type="password"
             placeholder="Enter password"
